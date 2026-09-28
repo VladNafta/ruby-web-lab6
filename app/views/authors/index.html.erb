@@ -1,0 +1,25 @@
+<%# [згенеровано] rails generate scaffold Author; [власний код] таблиця з книгами автора, українські підписи %>
+<% content_for :title, "Автори" %>
+
+<div class="page-head">
+  <h1>Автори</h1>
+  <%= link_to "+ Додати автора", new_author_path, class: "btn primary" %>
+</div>
+
+<table class="table">
+  <thead><tr><th>Автор</th><th>Книги в каталозі</th><th></th></tr></thead>
+  <tbody>
+    <% @authors.each do |author| %>
+      <tr>
+        <td><%= link_to author.name, author %></td>
+        <td><%= safe_join(author.books.map { |b| link_to(b.title, b) }, ", ") %></td>
+        <td><div class="row-actions">
+          <%= link_to "Редагувати", edit_author_path(author) %>
+          <% if author.books.empty? %>
+            <%= button_to "Видалити", author, method: :delete, class: "link" %>
+          <% end %>
+        </div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

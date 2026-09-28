@@ -1,0 +1,33 @@
+<%# [власний код] бічна навігаційна панель (SRS п. 4.1.2); розділи залежать від ролі %>
+<nav>
+  <h4>Навігація</h4>
+  <%= nav_link "Головна", root_path %>
+  <%= nav_link "Каталог", books_path %>
+  <%= nav_link "Новинки", books_path(sort: "new") %>
+  <%= nav_link "Популярне", books_path(sort: "rating") %>
+
+  <h4>Жанри</h4>
+  <% @sidebar_genres.each do |genre| %>
+    <%= nav_link genre.name, books_path(genre_id: genre.id), active: params[:genre_id] == genre.id.to_s %>
+  <% end %>
+
+  <% if current_user %>
+    <h4>Мій кабінет</h4>
+    <%= nav_link "Мої полиці", shelf_items_path %>
+    <%= nav_link "Мої бронювання", reservations_path %>
+    <%= nav_link "Мої відгуки", reviews_path %>
+  <% end %>
+
+  <% if current_user&.staff? %>
+    <h4>Бібліотека</h4>
+    <%= nav_link "Керування каталогом", new_book_path %>
+    <%= nav_link "Автори", authors_path %>
+    <%= nav_link "Жанри", genres_path %>
+    <%= nav_link "Бронювання і видачі", library_reservations_path %>
+  <% end %>
+
+  <% if current_user&.admin? %>
+    <h4>Адміністрування</h4>
+    <%= nav_link "Користувачі", admin_users_path %>
+  <% end %>
+</nav>

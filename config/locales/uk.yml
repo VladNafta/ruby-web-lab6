@@ -1,0 +1,76 @@
+# [власний код] українська локалізація моделей, помилок валідації та дат
+uk:
+  activerecord:
+    models:
+      user: "Користувач"
+      book: "Книга"
+      author: "Автор"
+      genre: "Жанр"
+      reservation: "Бронювання"
+      review: "Відгук"
+    attributes:
+      user:
+        name: "Ім'я"
+        email_address: "Email"
+        password: "Пароль"
+        password_confirmation: "Підтвердження пароля"
+        role: "Роль"
+      book:
+        title: "Назва"
+        isbn: "ISBN"
+        year: "Рік видання"
+        description: "Опис"
+        copies_count: "Кількість примірників"
+        genre: "Жанр"
+        genre_id: "Жанр"
+        authors: "Автори"
+        author_ids: "Автори"
+      author:
+        name: "Ім'я автора"
+      genre:
+        name: "Назва жанру"
+      review:
+        rating: "Оцінка"
+        body: "Текст відгуку"
+        user_id: "Читач"
+    errors:
+      messages:
+        record_invalid: "Помилки: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "Неможливо видалити запис, бо існує залежний %{record}"
+          has_many: "Неможливо видалити запис, бо існують залежні %{record}"
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: "не може бути порожнім"
+      required: "має бути вказано"
+      taken: "уже використовується"
+      invalid: "має невірний формат"
+      confirmation: "не збігається з полем «%{attribute}»"
+      too_short: "занадто короткий (мінімум %{count} символів)"
+      too_long: "занадто довгий (максимум %{count} символів)"
+      inclusion: "має недопустиме значення"
+      not_a_number: "має бути числом"
+      not_an_integer: "має бути цілим числом"
+      greater_than: "має бути більшим за %{count}"
+      greater_than_or_equal_to: "має бути не меншим за %{count}"
+      less_than_or_equal_to: "має бути не більшим за %{count}"
+  helpers:
+    submit:
+      create: "Зберегти"
+      update: "Зберегти зміни"
+      submit: "Надіслати"
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%d.%m"
+    order:
+      - :day
+      - :month
+      - :year
+  time:
+    formats:
+      default: "%d.%m.%Y %H:%M"
+      short: "%d.%m.%Y %H:%M"
+    am: "дп"
+    pm: "пп"

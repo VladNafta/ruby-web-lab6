@@ -1,0 +1,30 @@
+<%# [власний код] керування користувачами — лише адміністратор (FR-4.7) %>
+<% content_for :title, "Користувачі" %>
+
+<h1>Користувачі</h1>
+
+<table class="table">
+  <thead>
+    <tr><th>Ім'я</th><th>Email</th><th>Зареєстровано</th><th>Роль і блокування</th></tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr class="<%= "blocked" if user.blocked? %>">
+        <td><%= user.name %></td>
+        <td><%= user.email_address %></td>
+        <td><%= l user.created_at.to_date %></td>
+        <td>
+          <% if user == current_user %>
+            <%= user.role_name %> <small class="muted">(це ви)</small>
+          <% else %>
+            <%= form_with model: [ :admin, user ], class: "inline" do |f| %>
+              <%= f.select :role, User::ROLE_NAMES.invert %>
+              <label class="check"><%= f.check_box :blocked %> заблоковано</label>
+              <%= f.submit "Зберегти", class: "btn small" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

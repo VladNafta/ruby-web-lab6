@@ -1,0 +1,22 @@
+<%# [згенеровано] rails g controller Home index (порожній шаблон) %>
+<%# [власний код] головна сторінка за макетом SRS (рисунок 2) %>
+<% content_for :title, "Головна" %>
+
+<div class="announce">
+  <strong>Оголошення бібліотеки</strong> — працюємо пн–пт 9:00–18:00, сб 10:00–15:00.
+  Заброньовану книгу потрібно забрати протягом 3 днів, строк користування — 14 днів.
+</div>
+
+<h2>Нові надходження</h2>
+<div class="grid">
+  <%= render partial: "books/card", collection: @new_books, as: :book %>
+</div>
+
+<h2 id="popular">Популярне цього місяця</h2>
+<% if @popular_books.any? %>
+  <div class="grid">
+    <%= render partial: "books/card", collection: @popular_books, as: :book %>
+  </div>
+<% else %>
+  <p class="muted">За останні 30 днів ще не було бронювань.</p>
+<% end %>

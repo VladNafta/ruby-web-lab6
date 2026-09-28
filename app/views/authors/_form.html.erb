@@ -1,0 +1,13 @@
+<%# [згенеровано] rails generate scaffold Author; [власний код] вивід помилок через form_errors %>
+<%= form_with(model: author, class: "form") do |form| %>
+  <%= form_errors(author) %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn primary" %>
+  </div>
+<% end %>

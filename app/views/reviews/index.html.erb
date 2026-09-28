@@ -1,0 +1,17 @@
+<%# [власний код] сторінка «Мої відгуки» %>
+<% content_for :title, "Мої відгуки" %>
+
+<h1>Мої відгуки</h1>
+
+<% if @reviews.empty? %>
+  <p class="muted">Ви ще не залишали відгуків.</p>
+<% end %>
+<% @reviews.each do |review| %>
+  <div class="review">
+    <div>
+      <%= link_to review.book.title, review.book %> <%= stars(review.rating) %>
+      <small class="muted"><%= l review.created_at.to_date %></small>
+    </div>
+    <%= simple_format review.body if review.body.present? %>
+  </div>
+<% end %>

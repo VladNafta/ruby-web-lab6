@@ -1,0 +1,32 @@
+<%# [власний код] сторінка «Мої бронювання» %>
+<% content_for :title, "Мої бронювання" %>
+
+<h1>Мої бронювання</h1>
+
+<% if @reservations.empty? %>
+  <p class="muted">У вас ще немає бронювань. Оберіть книгу в <%= link_to "каталозі", books_path %>.</p>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr><th>Книга</th><th>Заброньовано</th><th>Статус</th><th>Строк</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @reservations.each do |r| %>
+        <tr>
+          <td><%= link_to r.book.title, r.book %><br><small class="muted"><%= r.book.author_names %></small></td>
+          <td><%= l r.created_at, format: :short %></td>
+          <td><span class="status status-<%= r.status %>"><%= r.status_name %></span></td>
+          <td>
+            <%= "забрати до #{l r.expires_at, format: :short}" if r.reserved? %>
+            <%= "повернути до #{l r.due_on}" if r.issued? %>
+          </td>
+          <td>
+            <% if r.reserved? %>
+              <%= button_to "Скасувати", reservation_path(r), method: :delete, class: "btn small" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

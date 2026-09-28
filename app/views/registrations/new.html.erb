@@ -1,0 +1,31 @@
+<%# [власний код] форма реєстрації (SRS п. 3.1.1, FR-1.1, FR-1.5) %>
+<% content_for :title, "Реєстрація" %>
+
+<div class="auth-box">
+  <h1>Реєстрація читача</h1>
+
+  <%= form_with model: @user, url: registration_path, class: "form" do |form| %>
+    <%= form_errors(@user) %>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name, autofocus: true, maxlength: 50 %>
+    </div>
+    <div class="field">
+      <%= form.label :email_address %>
+      <%= form.email_field :email_address, autocomplete: "username" %>
+    </div>
+    <div class="field">
+      <%= form.label :password %>
+      <%= form.password_field :password, autocomplete: "new-password" %>
+      <small class="muted">8–72 символи, щонайменше одна літера і одна цифра</small>
+    </div>
+    <div class="field">
+      <%= form.label :password_confirmation %>
+      <%= form.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
+    <%= form.submit "Зареєструватися", class: "btn primary" %>
+  <% end %>
+
+  <p class="muted">Вже зареєстровані? <%= link_to "Увійти", new_session_path %></p>
+</div>

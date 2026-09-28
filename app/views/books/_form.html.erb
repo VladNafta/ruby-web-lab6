@@ -1,0 +1,51 @@
+<%# [згенеровано] rails generate scaffold Book (form_with і поля) %>
+<%# [власний код] вибір жанру зі списку, автори чекбоксами (has_many :through), українські підписи %>
+<%= form_with(model: book, class: "form") do |form| %>
+  <%= form_errors(book) %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author_ids %>
+    <div class="checks">
+      <%= form.collection_check_boxes :author_ids, Author.ordered, :id, :name do |b| %>
+        <label><%= b.check_box %> <%= b.text %></label>
+      <% end %>
+    </div>
+    <small class="muted">Немає потрібного автора? <%= link_to "Додати автора", new_author_path %></small>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :genre_id %>
+      <%= form.collection_select :genre_id, Genre.ordered, :id, :name, include_blank: "— оберіть жанр —" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :year %>
+      <%= form.number_field :year %>
+    </div>
+
+    <div class="field">
+      <%= form.label :isbn %>
+      <%= form.text_field :isbn, placeholder: "10 або 13 цифр" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :copies_count %>
+      <%= form.number_field :copies_count, min: 1 %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.textarea :description, rows: 4 %>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn primary" %>
+  </div>
+<% end %>

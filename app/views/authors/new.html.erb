@@ -1,0 +1,8 @@
+<%# [згенеровано] rails generate scaffold Author; [власний код] українські підписи %>
+<% content_for :title, "Новий автор" %>
+
+<h1>Новий автор</h1>
+
+<%= render "form", author: @author %>
+
+<p><%= link_to "← До списку авторів", authors_path %></p>

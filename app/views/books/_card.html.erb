@@ -1,0 +1,9 @@
+<%# [власний код] картка книги в сітці: обкладинка, назва, автор, оцінка, вільні примірники %>
+<%= link_to book, class: "card" do %>
+  <%= cover(book) %>
+  <div class="card-body">
+    <strong class="card-title"><%= book.title %></strong>
+    <span class="muted"><%= book.author_names %></span>
+    <span class="meta"><%= stars(book.average_rating) %> · <%= availability(book) %></span>
+  </div>
+<% end %>

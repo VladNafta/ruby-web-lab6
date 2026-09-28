@@ -1,0 +1,40 @@
+<%# [згенеровано] rails generate scaffold Book (список @books) %>
+<%# [власний код] сітка карток, фільтри і сортування FR-4.1, пагінація по 20 книг %>
+<% content_for :title, @genre ? @genre.name : "Каталог" %>
+
+<div class="page-head">
+  <h1><%= @genre ? "Жанр: #{@genre.name}" : "Каталог книг" %></h1>
+  <% if current_user&.staff? %>
+    <%= link_to "+ Додати книгу", new_book_path, class: "btn primary" %>
+  <% end %>
+</div>
+
+<%= form_with url: books_path, method: :get, class: "filters" do |f| %>
+  <%= f.search_field :q, value: params[:q], placeholder: "Назва, автор або ISBN" %>
+  <%= f.select :genre_id, options_from_collection_for_select(@sidebar_genres, :id, :name, params[:genre_id]),
+               include_blank: "Усі жанри" %>
+  <%= f.number_field :year, value: params[:year], placeholder: "Рік", class: "year" %>
+  <label class="check"><%= f.check_box :available, { checked: params[:available] == "1" }, "1", nil %> лише доступні</label>
+  <%= f.select :sort, Book::SORTS.map { |key, name| [ "Сортувати за #{name}", key ] }, selected: params[:sort] %>
+  <%= f.submit "Застосувати", name: nil %>
+<% end %>
+
+<p class="muted">
+  Знайдено книг: <strong><%= @total %></strong><%= " за запитом «#{params[:q]}»" if params[:q].present? %>
+</p>
+
+<% if @books.any? %>
+  <div class="grid">
+    <%= render partial: "books/card", collection: @books, as: :book %>
+  </div>
+<% else %>
+  <p>Нічого не знайдено. Спробуйте змінити запит або фільтри.</p>
+<% end %>
+
+<% if @pages > 1 %>
+  <nav class="pagination">
+    <% (1..@pages).each do |p| %>
+      <%= link_to_unless p == @page, p, request.query_parameters.merge(page: p) %>
+    <% end %>
+  </nav>
+<% end %>

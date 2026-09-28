@@ -1,0 +1,10 @@
+<%# [згенеровано] rails generate scaffold Author; [власний код] список книг автора %>
+<% content_for :title, @author.name %>
+
+<h1><%= @author.name %></h1>
+
+<div class="grid">
+  <%= render partial: "books/card", collection: @author.books.includes(:authors), as: :book %>
+</div>
+
+<p><%= link_to "Редагувати", edit_author_path(@author) %> · <%= link_to "← До списку авторів", authors_path %></p>

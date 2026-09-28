@@ -1,0 +1,25 @@
+<%# [згенеровано] rails generate scaffold Genre; [власний код] таблиця з кількістю книг, українські підписи %>
+<% content_for :title, "Жанри" %>
+
+<div class="page-head">
+  <h1>Жанри</h1>
+  <%= link_to "+ Додати жанр", new_genre_path, class: "btn primary" %>
+</div>
+
+<table class="table">
+  <thead><tr><th>Назва</th><th>Книг</th><th></th></tr></thead>
+  <tbody>
+    <% @genres.each do |genre| %>
+      <tr>
+        <td><%= link_to genre.name, books_path(genre_id: genre.id) %></td>
+        <td><%= genre.books_count %></td>
+        <td><div class="row-actions">
+          <%= link_to "Перейменувати", edit_genre_path(genre) %>
+          <% if genre.books_count.zero? %>
+            <%= button_to "Видалити", genre, method: :delete, class: "link" %>
+          <% end %>
+        </div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

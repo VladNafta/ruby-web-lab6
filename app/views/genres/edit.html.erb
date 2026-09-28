@@ -1,0 +1,8 @@
+<%# [згенеровано] rails generate scaffold Genre; [власний код] українські підписи %>
+<% content_for :title, "Редагування жанру" %>
+
+<h1>Редагування жанру</h1>
+
+<%= render "form", genre: @genre %>
+
+<p><%= link_to "← До списку жанрів", genres_path %></p>

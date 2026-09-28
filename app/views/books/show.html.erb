@@ -1,0 +1,76 @@
+<%# [згенеровано] rails generate scaffold Book (сторінка @book) %>
+<%# [власний код] картка книги, бронювання, полиці, відгуки; кнопки бібліотекаря %>
+<% content_for :title, @book.title %>
+
+<div class="book">
+  <%= cover(@book, big: true) %>
+
+  <div class="book-info">
+    <h1><%= @book.title %></h1>
+    <p class="authors"><%= @book.author_names %></p>
+
+    <table class="props">
+      <tr><th>Жанр</th><td><%= link_to @book.genre.name, books_path(genre_id: @book.genre_id) %></td></tr>
+      <tr><th>Рік видання</th><td><%= @book.year || "—" %></td></tr>
+      <tr><th>ISBN</th><td><%= @book.isbn %></td></tr>
+      <tr><th>Примірників</th><td><%= @book.copies_count %> (<%= availability(@book) %>)</td></tr>
+      <tr><th>Оцінка</th><td><%= stars(@book.average_rating) %> <%= @book.average_rating %> · відгуків: <%= @reviews.size %></td></tr>
+    </table>
+
+    <%= simple_format @book.description, class: "description" %>
+
+    <div class="actions">
+      <% if current_user %>
+        <% if @my_reservation %>
+          <span class="badge">
+            Ваше бронювання: <%= @my_reservation.status_name %>
+            <%= "до #{l @my_reservation.expires_at, format: :short}" if @my_reservation.reserved? %>
+            <%= "до #{l @my_reservation.due_on}" if @my_reservation.issued? %>
+          </span>
+        <% elsif @book.available? %>
+          <%= button_to "Забронювати", book_reservations_path(@book), class: "btn primary" %>
+        <% end %>
+
+        <%= form_with url: shelf_items_path, class: "inline" do |f| %>
+          <%= f.hidden_field :book_id, value: @book.id %>
+          <%= f.select :shelf, ShelfItem::SHELF_NAMES.invert, selected: @shelf_item&.shelf %>
+          <%= f.submit(@shelf_item ? "Перемістити" : "На полицю", name: nil) %>
+        <% end %>
+      <% else %>
+        <p class="muted"><%= link_to "Увійдіть", new_session_path %>, щоб забронювати книгу або залишити відгук.</p>
+      <% end %>
+
+      <% if current_user&.staff? %>
+        <%= link_to "Редагувати", edit_book_path(@book), class: "btn" %>
+        <%= button_to "Видалити", @book, method: :delete, class: "btn danger",
+                      form: { data: { turbo_confirm: "Видалити книгу «#{@book.title}»?" } } %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<h2>Відгуки</h2>
+
+<% if current_user && @my_review.nil? %>
+  <%= form_with model: [ @book, @review ], class: "review-form" do |f| %>
+    <%= f.select :rating, 5.downto(1).map { |r| [ "★" * r + "☆" * (5 - r), r ] } %>
+    <%= f.textarea :body, rows: 2, placeholder: "Ваш відгук (необов'язково)" %>
+    <%= f.submit "Залишити відгук" %>
+  <% end %>
+<% end %>
+
+<% if @reviews.empty? %>
+  <p class="muted">Відгуків ще немає.</p>
+<% end %>
+<% @reviews.each do |review| %>
+  <div class="review">
+    <div>
+      <strong><%= review.user.name %></strong> <%= stars(review.rating) %>
+      <small class="muted"><%= l review.created_at.to_date %></small>
+      <% if review.user == current_user %>
+        <%= button_to "Видалити", book_review_path(@book, review), method: :delete, class: "link" %>
+      <% end %>
+    </div>
+    <%= simple_format review.body if review.body.present? %>
+  </div>
+<% end %>

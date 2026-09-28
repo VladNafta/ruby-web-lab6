@@ -1,0 +1,22 @@
+<%# [згенеровано] rails generate authentication (форма входу) %>
+<%# [власний код] українські підписи і стилі %>
+<% content_for :title, "Вхід" %>
+
+<div class="auth-box">
+  <h1>Вхід у систему</h1>
+
+  <%= form_with url: session_path, class: "form" do |form| %>
+    <div class="field">
+      <%= form.label :email_address, "Email" %>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username",
+                           placeholder: "you@example.com", value: params[:email_address] %>
+    </div>
+    <div class="field">
+      <%= form.label :password, "Пароль" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72 %>
+    </div>
+    <%= form.submit "Увійти", class: "btn primary" %>
+  <% end %>
+
+  <p class="muted">Ще не маєте облікового запису? <%= link_to "Зареєструватися", new_registration_path %></p>
+</div>

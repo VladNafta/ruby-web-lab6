@@ -1,0 +1,179 @@
+/*
+ * [згенеровано] rails new — порожній маніфест Propshaft
+ * [власний код] стилі інтерфейсу «Читанки» за макетом SRS (рисунок 2)
+ */
+:root {
+  --text: #1f2328;
+  --muted: #6b7280;
+  --line: #d8dbe0;
+  --bg-side: #f4f5f7;
+  --accent: #b3261e;
+  --accent-dark: #8c1d17;
+  --ok: #1a7f37;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Ubuntu, Arial, sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 24px; margin: 0 0 16px; }
+h2 { font-size: 19px; margin: 24px 0 12px; }
+.muted { color: var(--muted); }
+
+/* ---- верхня панель ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  border-bottom: 2px solid var(--text);
+}
+.logo { font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: .5px; }
+.logo::before { content: "📖 "; }
+.menu-btn { display: none; font-size: 22px; cursor: pointer; }
+.search { flex: 1; display: flex; }
+.search input { flex: 1; padding: 8px 10px; border: 1px solid #9aa0a6; border-right: 0; border-radius: var(--radius) 0 0 var(--radius); font-size: 14px; }
+.search input[type=submit] { flex: 0; padding: 8px 16px; border: 1px solid #9aa0a6; border-radius: 0 var(--radius) var(--radius) 0; background: #eceef1; cursor: pointer; }
+.auth { display: flex; align-items: center; gap: 10px; }
+.user-name { font-weight: 600; }
+.user-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+
+/* ---- кнопки ---- */
+.btn, input[type=submit], button {
+  display: inline-block;
+  padding: 7px 14px;
+  border: 1px solid #9aa0a6;
+  border-radius: var(--radius);
+  background: #f3f4f6;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.btn:hover { text-decoration: none; background: #e5e7eb; }
+.btn.primary, input.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-dark); }
+.btn.danger { color: var(--accent); border-color: var(--accent); background: #fff; }
+.btn.small { padding: 3px 10px; font-size: 13px; }
+button.link, .link { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; font-size: 13px; }
+form.button_to, form.inline { display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+
+/* ---- макет ---- */
+.layout { display: flex; flex: 1; }
+.sidebar { width: 230px; flex-shrink: 0; background: var(--bg-side); border-right: 2px solid var(--text); padding: 12px; }
+.sidebar h4 { margin: 16px 8px 6px; font-size: 12px; text-transform: uppercase; color: #4b5563; letter-spacing: .5px; }
+.sidebar h4:first-child { margin-top: 4px; }
+.sidebar a { display: block; padding: 6px 8px; color: var(--text); border-radius: 4px; }
+.sidebar a:hover { background: #e5e7eb; text-decoration: none; }
+.sidebar a.active { background: #dcdfe4; font-weight: 700; }
+.content { flex: 1; padding: 20px 24px; min-width: 0; }
+.footer { border-top: 2px solid var(--text); padding: 12px 20px; font-size: 13px; color: #4b5563; }
+
+.flash { padding: 10px 14px; border-radius: var(--radius); margin-bottom: 16px; }
+.flash-notice { background: #e6f4ea; border: 1px solid #a7d7b5; color: #14532d; }
+.flash-alert { background: #fdecea; border: 1px solid #f5b5ae; color: #7f1d1d; }
+
+.announce { border: 1px dashed #9aa0a6; background: #fafafa; padding: 14px 18px; border-radius: var(--radius); }
+.page-head { display: flex; justify-content: space-between; align-items: center; }
+
+/* ---- картки книг ---- */
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; color: var(--text); background: #fff; }
+.card:hover { text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.card-body { display: flex; flex-direction: column; gap: 3px; padding: 8px 2px 2px; font-size: 13px; }
+.card-title { font-size: 15px; }
+.cover {
+  height: 88px;
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(135deg, hsl(var(--hue) 55% 45%), hsl(calc(var(--hue) + 40) 60% 30%));
+}
+.cover span { text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.cover.big { width: 220px; height: 300px; flex-shrink: 0; font-size: 20px; padding: 18px; }
+.stars { color: #d97706; letter-spacing: 1px; }
+.ok { color: var(--ok); }
+.no { color: var(--accent); }
+
+/* ---- сторінка книги ---- */
+.book { display: flex; gap: 28px; align-items: flex-start; }
+.book-info { flex: 1; }
+.authors { font-size: 17px; color: #374151; margin-top: -8px; }
+.props { border-collapse: collapse; margin-bottom: 8px; }
+.props th { text-align: left; font-weight: 400; color: var(--muted); padding: 3px 18px 3px 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; }
+.badge { background: #fff4e5; border: 1px solid #f5c26b; padding: 6px 12px; border-radius: var(--radius); }
+.review { border-bottom: 1px solid var(--line); padding: 10px 0; }
+.review p { margin: 6px 0 0; }
+.review-form { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 12px; }
+.review-form textarea { flex: 1; }
+
+/* ---- форми ---- */
+.form { max-width: 720px; }
+.field { margin-bottom: 14px; display: flex; flex-direction: column; gap: 4px; }
+.field label { font-weight: 600; }
+.row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+input[type=text], input[type=email], input[type=password], input[type=number], input[type=search], select, textarea {
+  padding: 7px 9px; border: 1px solid #9aa0a6; border-radius: var(--radius); font: inherit;
+}
+.checks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; max-height: 170px; overflow-y: auto; }
+.checks label { font-weight: 400; }
+.form-errors { background: #fdecea; border: 1px solid #f5b5ae; color: #7f1d1d; border-radius: var(--radius); padding: 8px 14px; margin-bottom: 14px; }
+.form-errors p { margin: 4px 0; font-weight: 600; }
+.form-errors ul { margin: 4px 0; padding-left: 20px; }
+.field_with_errors input, .field_with_errors select { border-color: var(--accent); background: #fff8f7; }
+.field_with_errors label { color: var(--accent); }
+.auth-box { max-width: 420px; margin: 10px auto; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 26px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+.filters input[type=search] { flex: 1; min-width: 200px; }
+.filters .year { width: 90px; }
+.check { display: inline-flex; gap: 4px; align-items: center; }
+.pagination { margin-top: 18px; display: flex; gap: 10px; }
+
+/* ---- таблиці ---- */
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.table th { background: var(--bg-side); font-size: 13px; }
+.row-actions { display: flex; gap: 12px; align-items: center; }
+tr.blocked td { color: var(--muted); text-decoration: line-through; }
+tr.blocked td:last-child { text-decoration: none; }
+.status { padding: 2px 8px; border-radius: 10px; font-size: 13px; background: #eef0f3; }
+.status-reserved { background: #fff4e5; color: #92400e; }
+.status-issued { background: #e6f0fd; color: #1e40af; }
+.status-returned { background: #e6f4ea; color: #14532d; }
+.status-cancelled { background: #f3f4f6; color: var(--muted); }
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.tabs a { padding: 6px 12px; border: 1px solid var(--line); border-radius: 16px; color: var(--text); }
+.tabs a.active { background: var(--text); color: #fff; border-color: var(--text); }
+.shelf li { margin-bottom: 6px; }
+
+/* ---- адаптивність: на вузьких екранах бічна панель ховається в «☰» ---- */
+@media (max-width: 768px) {
+  .menu-btn { display: block; }
+  .topbar { flex-wrap: wrap; }
+  .search { order: 3; flex-basis: 100%; }
+  .sidebar { display: none; }
+  #menu-toggle:checked ~ .layout .sidebar { display: block; position: absolute; z-index: 5; min-height: 70vh; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .book { flex-direction: column; }
+  .row { grid-template-columns: 1fr 1fr; }
+}
+
+/* поля форм на всю ширину блоку (у т. ч. обгорнуті field_with_errors) */
+.form .field input:not([type=checkbox]), .form .field select, .form .field textarea { width: 100%; }

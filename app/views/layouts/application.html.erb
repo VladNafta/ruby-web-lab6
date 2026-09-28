@@ -1,0 +1,62 @@
+<%# [згенеровано] rails new (head: meta, csrf, stylesheet, importmap) %>
+<%# [власний код] спільний макет за SRS п. 4.1: верхня панель, бічна панель, основна область, колонтитул %>
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <title><%= [content_for(:title), "Читанка"].compact.join(" — ") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Читанка">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <input type="checkbox" id="menu-toggle" hidden>
+    <header class="topbar">
+      <label for="menu-toggle" class="menu-btn" title="Меню">☰</label>
+      <%= link_to "Читанка", root_path, class: "logo" %>
+
+      <%= form_with url: books_path, method: :get, class: "search" do |f| %>
+        <%= f.search_field :q, value: params[:q], placeholder: "Назва, автор або ISBN", "aria-label": "Пошук" %>
+        <%= f.submit "Знайти", name: nil %>
+      <% end %>
+
+      <div class="auth">
+        <% if current_user %>
+          <span class="user-name"><%= current_user.name %> <small><%= current_user.role_name %></small></span>
+          <%= button_to "Вийти", session_path, method: :delete, class: "btn" %>
+        <% else %>
+          <%= link_to "Увійти", new_session_path, class: "btn" %>
+          <%= link_to "Реєстрація", new_registration_path, class: "btn" %>
+        <% end %>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar"><%= render "shared/sidebar" %></aside>
+
+      <main class="content">
+        <% flash.each do |type, message| %>
+          <div class="flash flash-<%= type %>"><%= message %></div>
+        <% end %>
+        <%= yield %>
+      </main>
+    </div>
+
+    <footer class="footer">
+      Контакти бібліотеки · Правила користування · © <%= Date.current.year %> Читанка
+    </footer>
+  </body>
+</html>

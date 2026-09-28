@@ -1,0 +1,20 @@
+<%# [власний код] особисті полиці читача (FR-4.6) %>
+<% content_for :title, "Мої полиці" %>
+
+<h1>Мої полиці</h1>
+
+<% @shelves.each do |shelf, items| %>
+  <h2><%= ShelfItem::SHELF_NAMES[shelf] %> <small class="muted">(<%= items.size %>)</small></h2>
+  <% if items.empty? %>
+    <p class="muted">Полиця порожня.</p>
+  <% else %>
+    <ul class="shelf">
+      <% items.each do |item| %>
+        <li>
+          <%= link_to item.book.title, item.book %> — <span class="muted"><%= item.book.author_names %></span>
+          <%= button_to "Прибрати", shelf_item_path(item), method: :delete, class: "link" %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

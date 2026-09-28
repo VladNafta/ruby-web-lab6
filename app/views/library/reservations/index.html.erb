@@ -1,0 +1,39 @@
+<%# [власний код] бронювання і видачі — робоче місце бібліотекаря (FR-3.5) %>
+<% content_for :title, "Бронювання і видачі" %>
+
+<h1>Бронювання і видачі</h1>
+
+<nav class="tabs">
+  <%= link_to "Усі (#{@counts.values.sum})", library_reservations_path, class: ("active" unless @status) %>
+  <% Reservation::STATUS_NAMES.each do |key, name| %>
+    <%= link_to "#{name} (#{@counts[key].to_i})", library_reservations_path(status: key),
+                class: ("active" if @status == key) %>
+  <% end %>
+</nav>
+
+<table class="table">
+  <thead>
+    <tr><th>Читач</th><th>Книга</th><th>Створено</th><th>Статус</th><th>Строк</th><th>Дія</th></tr>
+  </thead>
+  <tbody>
+    <% @reservations.each do |r| %>
+      <tr>
+        <td><%= r.user.name %></td>
+        <td><%= link_to r.book.title, r.book %></td>
+        <td><%= l r.created_at, format: :short %></td>
+        <td><span class="status status-<%= r.status %>"><%= r.status_name %></span></td>
+        <td>
+          <%= l(r.expires_at, format: :short) if r.reserved? %>
+          <%= l(r.due_on) if r.issued? %>
+        </td>
+        <td>
+          <% if r.reserved? %>
+            <%= button_to "Видати", issue_library_reservation_path(r, status: @status), method: :patch, class: "btn small primary" %>
+          <% elsif r.issued? %>
+            <%= button_to "Повернено", return_book_library_reservation_path(r, status: @status), method: :patch, class: "btn small" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
